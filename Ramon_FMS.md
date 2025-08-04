@@ -1,6 +1,6 @@
 ✈️ 机载系统介绍 / On-board Systems Introduction
 
-RAMON
+RAMON - This PhD thesis only focuses on the on-board systems required to satisfy CTAs during CDOs.
 
 🌐标题 / Title:
 🌐实现连续下降操作期间满足控制到达时间要求的飞行管理系统
