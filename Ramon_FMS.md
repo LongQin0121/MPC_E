@@ -71,3 +71,43 @@ CTA调整：
 
 总结：
 研究的重点是确保在既定的水平路径上，通过精细调整垂直飞行剖面和时间管理策略，以增强飞行的效率和符合CTA，而不改变整体飞行路线。若需要更多信息，请随时提出，我会乐意提供更深入的解释和支持！📈✈️
+
+
+
+# 2. Framework on trajectory management
+### 
+Since this PhD thesis assumes an operational concept in which the lateral route is fixed and only the vertical profile is managed to satisfy controlled time of arrivals (CTAs), the concept of trajectory plan will refer `only` to the vertical profile.
+
+In current FMSs, the trajectory plan is constructed by `numerical integration of the differential equations` of the mathematical model describing the dynamics of the aircraft.
+
+未来的飞行管理系统（FMS）将能够更优地规划和执行连续下降操作（CDOs），同时满足控制到达时间（CTAs）的要求。这些系统需要具备以下能力：
+
+实时轨迹规划算法：需要能够快速生成实时最优轨迹计划，以符合输入的要求到达时间（RTAs）和典型的运行约束。这意味着系统可以动态调整并优化飞机的下降路径，以实现高效和精确的时间管理。
+
+满足RTAs的指导系统：需具备引导系统，以确保飞机能在遵守环保要求的同时满足RTAs。这要求系统在规划过程中即使出现模型误差，也能找到最节能的飞行路径。
+
+通俗的说，就是未来的飞机导航系统将能够动态调整飞行路径，以确保准时抵达，同时尽量减少对环境的影响，即减少噪音和排放。即使在计算上有一些小误差，系统仍力求找到最节能且环保的飞行方案。
+
+### 数值法  VS 解析法
+`Analytical methods`: These involve solving problems using exact formulas or symbolic manipulations, such as solving quadratic equations, calculating integrals, and performing rational number operations. They provide exact solutions through mathematical derivations and symbolic computations, like:
+
+Formula-based solutions: Using formulas such as the quadratic formula or integral expressions to obtain precise values.
+
+Algebraic manipulations: Employing algebraic rules for symbolic calculations.
+
+Calculus formulas: Using calculus-based derivations to solve differential equations or integration problems.
+
+In high school, these are the traditional, rigorous approaches that are taught.
+
+`Numerical methods`: These methods provide approximate solutions and are used when analytical solutions are difficult or impossible to obtain due to complexity (like nonlinear equations or equations that can't be easily expressed using simple formulas). Numerical methods are particularly suited for computation, utilizing iterative and approximation techniques to achieve desired accuracy. They are efficient for handling real-world complex problems often modeled computationally.
+
+Each approach has its strengths: analytical methods offer exact solutions, while numerical methods are more practical for complex, real-world applications where precision might be sacrificed for efficiency and solvability.
+
+## 2.1 Models needed for trajectory management
+
+✅ 通俗解释：
+ODE 像是“自由演化”：你推一辆车下坡，只要知道初始速度和坡度，它自己会滚下去。
+
+DAE 像是“受约束的演化”：现在加了一个刹车规定“车速必须保持60km/h”，于是每次车速一变，你必须用刹车或油门去强制调整，保持这个代数条件成立。
+
+因为多了这个“强制条件”，就不再是纯粹的 ODE 了，必须变成“微分 + 代数”的混合系统（DAE）。
