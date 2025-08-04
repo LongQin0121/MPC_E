@@ -49,3 +49,25 @@ Achieve more stable and precise trajectory planning by networking wind observati
 This onboard system, with its efficient real-time planning, dynamic energy management, and multi-strategy optimization, robustly ensures precise time-of-arrival compliance in complex airspace. It not only enhances flight efficiency but also drives aviation operation's environmental and economic benefits.
 
 🌍✈️📉系统的基本功能和作用！📘
+
+
+
+```
+Chapter V proposes two variants of the generic NMPC guidance strategy that rapidly update the optimal trajectory plan by using parametric sensitivities of the active trajectory plan. Then, the performance of these two variants are compared with those of an ideal NMPC, which updates the optimal trajectory plan instantaneously at each re-calculation instant, as well as those of the open-loop execution of the initial trajectory plan computed before the TOD.
+
+```
+在这个博士论文的研究范围内，水平路径不改变，主要关注的是优化控制到达时间（CTA）和下降的垂直剖面。
+
+📌 具体内容说明：
+CTA调整：
+
+时间管理：核心是确保飞机在预计的时间到达指定点，时间调整可能涉及速度的调节以适应CTA。
+
+下降剖面的优化：
+
+垂直飞行剖面：调整飞行高度和速度以优化能量使用，并满足环境要求（例如减少燃油消耗和噪声）。
+
+能量管理：利用升降舵和推力调整仅在垂直剖面上进行优化，而不是更改水平路径。
+
+总结：
+研究的重点是确保在既定的水平路径上，通过精细调整垂直飞行剖面和时间管理策略，以增强飞行的效率和符合CTA，而不改变整体飞行路线。若需要更多信息，请随时提出，我会乐意提供更深入的解释和支持！📈✈️
