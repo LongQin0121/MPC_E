@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>下降梯度角度计算器</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            text-align: center;
+            color: #4a5568;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+        .input-section {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4299e1;
+        }
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 15px;
+        }
+        label {
+            font-weight: 600;
+            min-width: 180px;
+            color: #2d3748;
+        }
+        input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+        }
+        .unit {
+            font-weight: 600;
+            color: #718096;
+            min-width: 80px;
+        }
+        .calculate-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(66, 153, 225, 0.4);
+        }
+        .results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .result-card {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            box-shadow: 0 5px 15px rgba(72, 187, 120, 0.3);
+        }
+        .result-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+        .result-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .result-detail {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        .comparison {
+            background: #2d3748;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .comparison h3 {
+            margin-top: 0;
+            color: #fbd38d;
+        }
+        .comparison-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✈️ 航空下降梯度计算器</h1>
+        
+        <div class="input-section">
+            <div class="input-group">
+                <label>下降梯度:</label>
+                <input type="number" id="gradient" placeholder="输入数值，如 330" step="0.1">
+                <span class="unit">feet/nm</span>
+            </div>
+            
+            <button class="calculate-btn" onclick="calculate()">🧮 计算角度</button>
+        </div>
+        
+        <div id="results" class="results hidden">
+            <div class="result-card">
+                <div class="result-title">下降角度</div>
+                <div class="result-value" id="angle">-</div>
+                <div class="result-detail">度 (°)</div>
+            </div>
+            
+            <div class="result-card">
+                <div class="result-title">下降梯度百分数</div>
+                <div class="result-value" id="percentage">-</div>
+                <div class="result-detail">%</div>
+            </div>
+        </div>
+        
+        <div id="comparison" class="comparison hidden">
+            <h3>📊 对比分析</h3>
+            <div id="comparisonContent"></div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const gradientInput = document.getElementById('gradient');
+            if (!gradientInput) {
+                console.error('找不到输入框');
+                return;
+            }
+            
+            const gradient = parseFloat(gradientInput.value);
+            
+            if (!gradient || gradient <= 0) {
+                alert('请输入有效的下降梯度值');
+                return;
+            }
+            
+            // 计算角度
+            const gradientRatio = gradient / 6076; // 1海里 = 6076英尺
+            const angleRad = Math.atan(gradientRatio);
+            const angleDeg = angleRad * (180 / Math.PI);
+            
+            // 计算百分数
+            const percentage = gradientRatio * 100;
+            
+            // 显示结果
+            const angleElement = document.getElementById('angle');
+            const percentageElement = document.getElementById('percentage');
+            const resultsElement = document.getElementById('results');
+            
+            if (angleElement && percentageElement && resultsElement) {
+                angleElement.textContent = angleDeg.toFixed(2);
+                percentageElement.textContent = percentage.toFixed(2);
+                
+                // 显示结果区域
+                resultsElement.classList.remove('hidden');
+                
+                // 生成对比分析
+                generateComparison(gradient, angleDeg);
+            } else {
+                console.error('找不到结果显示元素');
+            }
+        }
+        
+        function generateComparison(gradient, angle) {
+            let analysis = '';
+            let category = '';
+            let recommendations = '';
+            
+            if (angle < 2) {
+                category = '极缓下降';
+                analysis = `
+                    <div class="comparison-item">
+                        <strong>🟢 优点:</strong> 极佳的燃油效率，最小噪音影响，无需减速设备
+                    </div>
+                    <div class="comparison-item">
+                        <strong>🔴 缺点:</strong> 占用大量空域，下降距离很长，不适合繁忙空域
+                    </div>
+                `;
+                recommendations = '适合长航线巡航下降，环保优先的航班';
+            } else if (angle < 3) {
+                category = '理想下降角度';
+                analysis = `
+                    <div class="comparison-item">
+                        <strong>🟢 优点:</strong> 燃油效率高，可实现连续下降，噪音较低
+                    </div>
+                    <div class="comparison-item">
+                        <strong>🟡 注意:</strong> 需要合理的空域规划，下降距离较长
+                    </div>
+                `;
+                recommendations = '最佳的连续下降角度，平衡效率与实用性';
+            } else if (angle < 3.3) {  // 350 feet/nm ≈ 3.29°
+                category = '标准下降角度';
+                analysis = `
+                    <div class="comparison-item">
+                        <strong>🟡 特点:</strong> 可能需要间歇性减速设备，下降效率高
+                    </div>
+                    <div class="comparison-item">
+                        <strong>⚠️ 注意:</strong> 接近IDLE最大下降率，燃油效率开始下降
+                    </div>
+                `;
+                recommendations = '适中的下降角度，需要飞行员适当控制';
+            } else {
+                category = '陡峭下降 (超出IDLE能力)';
+                analysis = `
+                    <div class="comparison-item">
+                        <strong>🔴 缺点:</strong> 必需减速设备，燃油效率低，噪音大
+                    </div>
+                    <div class="comparison-item">
+                        <strong>⚠️ 警告:</strong> 超出350 feet/nm的IDLE最大下降率
+                    </div>
+                `;
+                recommendations = '需要额外减速装置，不适合节能飞行';
+            }
+            
+            const comparisonContent = document.getElementById('comparisonContent');
+            const comparisonElement = document.getElementById('comparison');
+            
+            if (comparisonContent && comparisonElement) {
+                comparisonContent.innerHTML = `
+                    <div class="comparison-item">
+                        <strong>类别:</strong> ${category}
+                        <br><strong>建议:</strong> ${recommendations}
+                    </div>
+                    ${analysis}
+                    <div class="comparison-item">
+                        <strong>💡 参考数据:</strong>
+                        <br>• 252 feet/nm ≈ 2.4° ≈ 4.15% (理想值)
+                        <br>• 330 feet/nm ≈ 3.1° ≈ 5.43% (临界点)
+                        <br>• 350 feet/nm ≈ 3.3° ≈ 5.76% (IDLE最大)
+                        <br>• 你的输入: ${gradient} feet/nm ≈ ${angle.toFixed(2)}° ≈ ${(gradient/6076*100).toFixed(2)}%
+                    </div>
+                `;
+                
+                comparisonElement.classList.remove('hidden');
+            }
+        }
+        
+        // 页面加载时自动计算示例值
+        window.onload = function() {
+            const gradientInput = document.getElementById('gradient');
+            if (gradientInput) {
+                gradientInput.value = '330';
+                calculate();
+            }
+        };
+    </script>
+</body>
+</html>
