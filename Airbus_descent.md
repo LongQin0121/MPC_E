@@ -347,3 +347,40 @@ A320绿点速度：约220-250kt
 理论分析帮助理解边界，实际运营在安全范围内优化
 
 这就是为什么航线飞行很少见到绿点速度，主要在应急程序中才使用！
+
+
+## Optimum Descent profile sensibility: Engine type
+
+CFM ilde thrust is higher at high altitude
+CFM idle thrust is lower at low altidude
+![alt text](e03d209d-b468-4505-ad43-0a118cea3820.png)
+
+## Optimum Descent profile sensibility: weight effect
+
+The lowest weight leads to the shortest descent
+![alt text](349d3287-1a09-49ce-84f5-cbe533b71c1c.png)
+
+## Optimum Descent profile sensibility: descent SPD
+Low SPD leads to a longer descent (Lift/Drag ratio is better at low descent speed)
+![alt text](d635e104-825a-4ef8-aba9-235d6709ccf2.png)
+
+## Optimum Descent profile sensitivity: wind effect
+N.B.: The wind shall be entered in the FMS to impact Top of Descent position.
+![alt text](75fd4468-4963-4a9b-8b9f-d33a72c1e001.png)
+
+Remind of the main recommendations:
+ “Window” ALT constraints shall be preferred compared to “AT”
+ Altitude constraints shall not impose a “too steep” flight path angle to the aircraft
+(too steep path required the use of Airbrake)
+ The average local wind shall be considered (10kts of tailwind shall decrease the
+limit slope by 0,1°)
+ A gentle slope (between -1°to -1,5°) shall be allow ed before glide slope
+interception
+ The transition altitude shall be preferably above FL100
+ Speed restrictions below 230kts and far from the FAF shall be avoided (this leads
+to early S/F extension)
+ The noise level can be reduced by using a SPD Limit at 230kts instead of 250kts
+
+
+## Recommendations for CDO procedure design: limit slopes at constant CAS for the whole Airbus fleet
+![alt text](548ab819-5781-48bf-bcbf-e1b70bd50087.png)
